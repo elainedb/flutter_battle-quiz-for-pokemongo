@@ -2,15 +2,10 @@
 
 Battle Quiz for Pokémon Go.
 
-## Getting Started
+This app is intended for Pokémon Go players that wish to improve their knowledge in type advantage when battling.
 
-This project is a starting point for a Flutter application.
+Two Pokémon types are randomly chosen and the player has to decide what the outcome of the encounter is going to be. If the answer is correct, one point is granted to the player.
 
-A few resources to get you started if this is your first Flutter project:
+The algorithm for the attack rate is coded on the app (rate_util.dart), and it was based on available online resources (like https://pokemongo.gamepress.gg/pokemon-go-type-chart). Code was minified since it's very verbose, but the idea is there :)
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+A lot of evolutions and improvements come to mind, but I'll need a lot more than 5KB to do that!
