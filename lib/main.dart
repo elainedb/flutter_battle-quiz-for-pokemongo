@@ -1,33 +1,37 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_battle_quiz_for_pokemongo/type_widget.dart';
 import 'package:flutter_battle_quiz_for_pokemongo/rate_util.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-void main() => runApp(MyApp());
+main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Battle Quiz for Pokémon Go',
       theme: ThemeData(
-        primaryColor: Colors.amber,
+        primaryColor: Colors.red,
+        fontFamily: 'Pokemon',
       ),
-      home: MyStatefulWidget(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Battle Quiz for Pokémon Go'),
+        ),
+        body: MySfulWgt(),
+        backgroundColor: Colors.lightBlueAccent,
+      ),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key k}) : super(key: k);
+class MySfulWgt extends StatefulWidget {
+  MySfulWgt({Key k}) : super(key: k);
 
   @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+  _MySfulWgtState createState() => _MySfulWgtState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _MySfulWgtState extends State<MySfulWgt> {
   int _total = 0;
   int _right = 0;
 
@@ -35,42 +39,84 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final r = Random();
     int iA = r.nextInt(T.values.length);
     int iD = r.nextInt(T.values.length);
-
-    String nA = S.values[iA].toString();
-    String nD = S.values[iD].toString();
-    TypeWidget a = TypeWidget(T.values[iA], nA);
-    TypeWidget d = TypeWidget(T.values[iD], nD);
+    TWgt a = TWgt(T.values[iA], S.values[iA].toString());
+    TWgt d = TWgt(T.values[iD], S.values[iD].toString());
     T tA = a.t;
     T tD = d.t;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Battle Quiz for Pokémon Go'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Padding(
+      padding: EdgeInsets.all(24),
+      child: Column(
         children: <Widget>[
-          Text("Your score: $_right / $_total"),
-          Text("What's the outcome of the battle below?"),
+          Text('What\'s the outcome?'),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               a,
               Text('VS.'),
               d,
             ],
           ),
-          FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.G)}, icon: Icon(Icons.thumb_up), label: Text("Very effective"), backgroundColor: Colors.green,),
-          FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.R)}, icon: Icon(Icons.thumbs_up_down), label: Text("Regular"), backgroundColor: Colors.blue,),
-          FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.B)}, icon: Icon(Icons.thumb_down), label: Text("Not very effective"), backgroundColor: Colors.red,),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.G)}, icon: Icon(Icons.thumb_up), label: Text('Super effective'), backgroundColor: Colors.green,),
+                    FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.R)}, icon: Icon(Icons.thumbs_up_down), label: Text('Regular'), backgroundColor: Colors.orange,),
+                    FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.B)}, icon: Icon(Icons.thumb_down), label: Text('Not very effective'), backgroundColor: Colors.red,),
+                  ],
+                ),
+                Center(
+                  child: Text('Your score:\n\n$_right / $_total', textAlign: TextAlign.center,),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
   _compute(T a, T d, A r) {
+    String t = 'Bad answer!';
+    Color c = Colors.red;
     setState(() {
-      if (getA(a, d) == r) _right++;
+      if (getA(a, d) == r) {
+        t = 'Right answer!';
+        c = Colors.green;
+        _right++;
+      }
       _total++;
     });
+
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(t, style: TextStyle(fontFamily: 'Pokemon'),), backgroundColor: c, duration: Duration(milliseconds: 500),));
+  }
+}
+
+class TWgt extends StatelessWidget {
+  final T t;
+  final String n;
+
+  TWgt(this.t, this.n, {Key k}) : super(key: k);
+
+  @override
+  Widget build(BuildContext c) {
+    String s = n.split('.')[1];
+
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(8),
+          child: SvgPicture.asset(
+            'assets/type-$s.svg',
+            width: 150,
+          ),
+        ),
+        Text(s)
+      ],
+    );
   }
 }
