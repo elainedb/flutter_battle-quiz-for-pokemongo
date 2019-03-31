@@ -40,8 +40,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     String nD = S.values[iD].toString();
     TypeWidget a = TypeWidget(T.values[iA], nA);
     TypeWidget d = TypeWidget(T.values[iD], nD);
-    T tA = a.type;
-    T tD = d.type;
+    T tA = a.t;
+    T tD = d.t;
 
     return Scaffold(
       appBar: AppBar(
