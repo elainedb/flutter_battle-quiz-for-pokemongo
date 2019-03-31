@@ -13,8 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Battle Quiz for Pokémon Go',
       theme: ThemeData(
-        primaryColor: Color(0xFFA60715),
-        accentColor: Color(0xFFA60715),
+        primaryColor: Colors.amber,
       ),
       home: MyStatefulWidget(),
     );
@@ -22,24 +21,27 @@ class MyApp extends StatelessWidget {
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
+  MyStatefulWidget({Key k}) : super(key: k);
 
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _totalAnswers = 0;
-  int _rightAnswers = 0;
+  int _total = 0;
+  int _right = 0;
 
-  Widget build(BuildContext context) {
-    List<Type> types = Type.values;
-    final _random = Random();
+  Widget build(BuildContext c) {
+    final r = Random();
+    int iA = r.nextInt(T.values.length);
+    int iD = r.nextInt(T.values.length);
 
-    TypeWidget attacker = TypeWidget(types[_random.nextInt(types.length)]);
-    TypeWidget defender = TypeWidget(types[_random.nextInt(types.length)]);
-    Type aType = attacker.type;
-    Type dType = defender.type;
+    String nA = S.values[iA].toString();
+    String nD = S.values[iD].toString();
+    TypeWidget a = TypeWidget(T.values[iA], nA);
+    TypeWidget d = TypeWidget(T.values[iD], nD);
+    T tA = a.type;
+    T tD = d.type;
 
     return Scaffold(
       appBar: AppBar(
@@ -48,27 +50,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text("Your score: $_rightAnswers / $_totalAnswers"),
-          Text("What's the outcome of a battle with the following types?"),
+          Text("Your score: $_right / $_total"),
+          Text("What's the outcome of the battle below?"),
           Row(
             children: <Widget>[
-              attacker,
+              a,
               Text('VS.'),
-              defender,
+              d,
             ],
           ),
-          FloatingActionButton.extended(onPressed: () => {_computeScore(aType, dType, AttackRate.super_effective)}, icon: Icon(Icons.thumb_up), label: Text("Very effective"), backgroundColor: Colors.green,),
-          FloatingActionButton.extended(onPressed: () => {_computeScore(aType, dType, AttackRate.regular)}, icon: Icon(Icons.thumbs_up_down), label: Text("Regular"), backgroundColor: Colors.blue,),
-          FloatingActionButton.extended(onPressed: () => {_computeScore(aType, dType, AttackRate.not_very_effective)}, icon: Icon(Icons.thumb_down), label: Text("Not very effective"), backgroundColor: Colors.red,),
+          FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.G)}, icon: Icon(Icons.thumb_up), label: Text("Very effective"), backgroundColor: Colors.green,),
+          FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.R)}, icon: Icon(Icons.thumbs_up_down), label: Text("Regular"), backgroundColor: Colors.blue,),
+          FloatingActionButton.extended(onPressed: () => {_compute(tA, tD, A.B)}, icon: Icon(Icons.thumb_down), label: Text("Not very effective"), backgroundColor: Colors.red,),
         ],
       ),
     );
   }
 
-  _computeScore(Type attacker, Type defender, AttackRate userRate) {
+  _compute(T a, T d, A r) {
     setState(() {
-      if (getAttackRate(attacker, defender) == userRate) _rightAnswers++;
-      _totalAnswers++;
+      if (getA(a, d) == r) _right++;
+      _total++;
     });
   }
 }

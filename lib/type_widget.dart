@@ -3,27 +3,27 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_battle_quiz_for_pokemongo/rate_util.dart';
 
 class TypeWidget extends StatelessWidget {
-  final Type type;
+  final T type;
+  final String name;
 
   const TypeWidget(
-    this.type, {
-    Key key,
-  }) : super(key: key);
+    this.type,
+    this.name, {
+    Key k,
+  }) : super(key: k);
 
   @override
-  Widget build(BuildContext context) {
-    String typeString = type.toString().split(".")[1];
-    String assetName = 'assets/type-$typeString.svg';
+  Widget build(BuildContext c) {
+    String nameStr = name.split(".")[1];
 
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           SvgPicture.asset(
-            assetName,
-            semanticsLabel: typeString,
+            'assets/type-$nameStr.svg',
           ),
-          Text(typeString)
+          Text(nameStr)
         ],
       ),
     );
