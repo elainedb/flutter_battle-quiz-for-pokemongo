@@ -52,9 +52,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              attacker,
+              Expanded(child: attacker),
               Text('VS.'),
-              defender,
+              Expanded(child: defender),
             ],
           ),
           Expanded(
