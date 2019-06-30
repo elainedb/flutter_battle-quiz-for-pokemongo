@@ -1,51 +1,50 @@
-enum T { b, k, d, e, y, h, f, l, g, a, u, i, n, p, c, r, s, w }
-enum S { bug, dark, dragon, electric, fairy, fighting, fire, flying, ghost, grass, ground, ice, normal, poison, psychic, rock, steel, water }
-enum A { B, R, G }
+enum Type { bug, dark, dragon, electric, fairy, fighting, fire, flying, ghost, grass, ground, ice, normal, poison, psychic, rock, steel, water }
+enum AttackRate { bad, regular, good }
 
-A getA(T a, T d) {
-  switch (a) {
-    case T.b:
-      return L(d, [T.k, T.a, T.c], [T.y, T.h, T.f, T.l, T.g, T.p, T.s]);
-    case T.k:
-      return L(d, [T.g, T.c], [T.k, T.y, T.h]);
-    case T.d:
-      return L(d, [T.d], [T.y, T.s]);
-    case T.e:
-      return L(d, [T.l, T.w], [T.d, T.e, T.a, T.u]);
-    case T.y:
-      return L(d, [T.k, T.d, T.h], [T.f, T.p, T.s]);
-    case T.h:
-      return L(d, [T.k, T.i, T.n, T.p, T.c, T.r, T.s], [T.b, T.y, T.l, T.g]);
-    case T.f:
-      return L(d, [T.b, T.a, T.i, T.s], [T.d, T.f, T.r, T.w]);
-    case T.l:
-      return L(d, [T.b, T.h, T.a], [T.e, T.r, T.s]);
-    case T.g:
-      return L(d, [T.g, T.c], [T.k, T.n]);
-    case T.a:
-      return L(d, [T.u, T.r, T.w], [T.b, T.d, T.f, T.l, T.a, T.p, T.s]);
-    case T.u:
-      return L(d, [T.e, T.f, T.p, T.r, T.s], [T.b, T.l, T.a]);
-    case T.i:
-      return L(d, [T.d, T.l, T.a, T.u], [T.f, T.i, T.s, T.w]);
-    case T.n:
-      return L(d, [], [T.g, T.r, T.s]);
-    case T.p:
-      return L(d, [T.y, T.a], [T.g, T.u, T.p, T.r, T.s]);
-    case T.c:
-      return L(d, [T.h, T.p], [T.k, T.c, T.s]);
-    case T.r:
-      return L(d, [T.b, T.f, T.l, T.i], [T.h, T.u, T.s]);
-    case T.s:
-      return L(d, [T.y, T.i, T.r], [T.e, T.f, T.s, T.w]);
-    case T.w:
-      return L(d, [T.f, T.u, T.r], [T.d, T.a, T.w]);
+AttackRate getAttackRate(Type attacker, Type defender) {
+  switch (attacker) {
+    case Type.bug:
+      return getAttackRateWithLists(defender, [Type.dark, Type.grass, Type.psychic], [Type.fairy, Type.fighting, Type.fire, Type.flying, Type.ghost, Type.poison, Type.steel]);
+    case Type.dark:
+      return getAttackRateWithLists(defender, [Type.ghost, Type.psychic], [Type.dark, Type.fairy, Type.fighting]);
+    case Type.dragon:
+      return getAttackRateWithLists(defender, [Type.dragon], [Type.fairy, Type.steel]);
+    case Type.electric:
+      return getAttackRateWithLists(defender, [Type.flying, Type.water], [Type.dragon, Type.electric, Type.grass, Type.ground]);
+    case Type.fairy:
+      return getAttackRateWithLists(defender, [Type.dark, Type.dragon, Type.fighting], [Type.fire, Type.poison, Type.steel]);
+    case Type.fighting:
+      return getAttackRateWithLists(defender, [Type.dark, Type.ice, Type.normal, Type.poison, Type.psychic, Type.rock, Type.steel], [Type.bug, Type.fairy, Type.flying, Type.ghost]);
+    case Type.fire:
+      return getAttackRateWithLists(defender, [Type.bug, Type.grass, Type.ice, Type.steel], [Type.dragon, Type.fire, Type.rock, Type.water]);
+    case Type.flying:
+      return getAttackRateWithLists(defender, [Type.bug, Type.fighting, Type.grass], [Type.electric, Type.rock, Type.steel]);
+    case Type.ghost:
+      return getAttackRateWithLists(defender, [Type.ghost, Type.psychic], [Type.dark, Type.normal]);
+    case Type.grass:
+      return getAttackRateWithLists(defender, [Type.ground, Type.rock, Type.water], [Type.bug, Type.dragon, Type.fire, Type.flying, Type.grass, Type.poison, Type.steel]);
+    case Type.ground:
+      return getAttackRateWithLists(defender, [Type.electric, Type.fire, Type.poison, Type.rock, Type.steel], [Type.bug, Type.flying, Type.grass]);
+    case Type.ice:
+      return getAttackRateWithLists(defender, [Type.dragon, Type.flying, Type.grass, Type.ground], [Type.fire, Type.ice, Type.steel, Type.water]);
+    case Type.normal:
+      return getAttackRateWithLists(defender, [], [Type.ghost, Type.rock, Type.steel]);
+    case Type.poison:
+      return getAttackRateWithLists(defender, [Type.fairy, Type.grass], [Type.ghost, Type.ground, Type.poison, Type.rock, Type.steel]);
+    case Type.psychic:
+      return getAttackRateWithLists(defender, [Type.fighting, Type.poison], [Type.dark, Type.psychic, Type.steel]);
+    case Type.rock:
+      return getAttackRateWithLists(defender, [Type.bug, Type.fire, Type.flying, Type.ice], [Type.fighting, Type.ground, Type.steel]);
+    case Type.steel:
+      return getAttackRateWithLists(defender, [Type.fairy, Type.ice, Type.rock], [Type.electric, Type.fire, Type.steel, Type.water]);
+    case Type.water:
+      return getAttackRateWithLists(defender, [Type.fire, Type.ground, Type.rock], [Type.dragon, Type.grass, Type.water]);
   }
 }
 
-A L(T d, List<T> G, List<T> B) {
-  A ar = A.R;
-  if (G.contains(d)) ar = A.G;
-  else if (B.contains(d)) ar = A.B;
+AttackRate getAttackRateWithLists(Type defender, List<Type> goodList, List<Type> badList) {
+  AttackRate ar = AttackRate.regular;
+  if (goodList.contains(defender)) ar = AttackRate.good;
+  else if (badList.contains(defender)) ar = AttackRate.bad;
   return ar;
 }
