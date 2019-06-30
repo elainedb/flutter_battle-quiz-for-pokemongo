@@ -39,10 +39,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final r = Random();
     int attackerIndex = r.nextInt(Type.values.length);
     int defenderIndex = r.nextInt(Type.values.length);
-    TypeWidget a = TypeWidget(Type.values[attackerIndex]);
-    TypeWidget d = TypeWidget(Type.values[defenderIndex]);
-    Type attackerType = a.type;
-    Type defenderType = d.type;
+    TypeWidget attacker = TypeWidget(Type.values[attackerIndex]);
+    TypeWidget defender = TypeWidget(Type.values[defenderIndex]);
+    Type attackerType = attacker.type;
+    Type defenderType = defender.type;
 
     return Padding(
       padding: EdgeInsets.all(24),
@@ -52,9 +52,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              a,
+              attacker,
               Text('VS.'),
-              d,
+              defender,
             ],
           ),
           Expanded(
@@ -99,12 +99,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   _compute(Type attacker, Type defender, AttackRate rate) {
-    String t = 'Bad answer!';
-    Color c = Colors.red;
+    String resultText = 'Bad answer!';
+    Color resultColor = Colors.red;
     setState(() {
       if (getAttackRate(attacker, defender) == rate) {
-        t = 'Right answer!';
-        c = Colors.green;
+        resultText = 'Right answer!';
+        resultColor = Colors.green;
         _correctAnswers++;
       }
       _totalAnswers++;
@@ -112,10 +112,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(
-        t,
+        resultText,
         style: TextStyle(fontFamily: 'Pokemon'),
       ),
-      backgroundColor: c,
+      backgroundColor: resultColor,
       duration: Duration(milliseconds: 500),
     ));
   }
@@ -128,18 +128,18 @@ class TypeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext c) {
-    String s = type.toString().split('.')[1];
+    String typeString = type.toString().split('.')[1];
 
     return Column(
       children: <Widget>[
         Padding(
           padding: EdgeInsets.all(8),
           child: SvgPicture.asset(
-            'assets/type-$s.svg',
+            'assets/type-$typeString.svg',
             width: 150,
           ),
         ),
-        Text(s)
+        Text(typeString)
       ],
     );
   }
