@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         body: MyStatefulWidget(),
         backgroundColor: Colors.lightBlueAccent,
       ),
+//      debugShowCheckedModeBanner: false,
     );
   }
 }
