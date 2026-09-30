@@ -1,11 +1,18 @@
-# battle_quiz_for_pokemongo
+# Battle Quiz for Pokémon GO
 
-Battle Quiz for Pokémon Go.
+A tiny quiz for Pokémon GO players who want to get better at type match-ups. Written for the [Flutter Create](https://flutter.dev/create) contest in 2019, which capped entries at 5 KB of Dart.
 
-This app is intended for Pokémon Go players that wish to improve their knowledge in type advantage when battling.
+> **Archived.** Kept as it was submitted.
 
-Two Pokémon types are randomly chosen and the player has to decide what the outcome of the encounter is going to be. If the answer is correct, one point is granted to the player.
+## How it plays
 
-The algorithm for the attack rate is coded on the app (rate_util.dart), and it was based on available online resources (like https://pokemongo.gamepress.gg/pokemon-go-type-chart). Code was minified since it's very verbose, but the idea is there :)
+Two Pokémon types are drawn at random. You decide how the attacker fares against the defender. A correct answer scores a point.
 
-A lot of evolutions and improvements come to mind, but I'll need a lot more than 5KB to do that!
+The attack-rate table lives in `lib/rate_util.dart` and follows the community type chart (for example the one at pokemongo.gamepress.gg). The code was minified to fit under the 5 KB limit, then partly de-minified afterwards.
+
+## Running
+
+```bash
+flutter pub get
+flutter run
+```
